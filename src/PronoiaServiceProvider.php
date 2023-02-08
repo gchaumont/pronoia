@@ -14,7 +14,7 @@ class PronoiaServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->publishes([
-            __DIR__.'/../config/package.php' => config_path('package.php'),
+            __DIR__.'/../resources/js' => resource_path('js/vendor/pronoia'),
         ], 'pronoia-resources');
     }
 
