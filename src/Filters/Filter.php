@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Search\Filters;
+namespace Pronoia\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
