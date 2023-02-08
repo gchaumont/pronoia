@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Support\Search\Facets;
+namespace Pronoia\Facets;
 
-use App\Support\Search\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Pronoia\Filters\Filter;
 
 /**
  * Filters items and provieds facet options.

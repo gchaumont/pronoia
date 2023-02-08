@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Search\Facets;
+namespace Pronoia\Facets;
 
 /**
  * Choose one or more items.
