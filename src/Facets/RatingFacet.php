@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Search\Facets;
+namespace Pronoia\Facets;
 
 class RatingFacet extends Facet
 {

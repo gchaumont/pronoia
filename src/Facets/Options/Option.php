@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Search\Facets\Options;
+namespace Pronoia\Facets\Options;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
