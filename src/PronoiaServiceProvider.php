@@ -1,6 +1,6 @@
 <?php
 
-namespace Elastico;
+namespace Pronoia;
 
 use Illuminate\Support\ServiceProvider;
 
