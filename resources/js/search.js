@@ -1,5 +1,5 @@
 import { provide, reactive } from 'vue'
-import Search from '@/search.js'
+import Search from './instantsearch.js'
 
 export function useSearch(target, callback = null, name = "resourceSearch") {
 
