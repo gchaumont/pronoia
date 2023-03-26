@@ -226,10 +226,10 @@ class SearchBuilder implements Responsable
                 ])
             ;
         }
+        // response(request()->input('facets'))->send();
         $meta['suggestions'] = collect($this->suggestions)
             ->filter(fn ($facet) => Str::is(explode(',', request()->input('suggest')), $facet->name))
             ->keyBy(fn ($facet) => $facet->name)
-
             ->map(fn ($facet) => [
                 'label' => $facet->label ?? null,
                 'options' => $facet->getOptions($hits),
@@ -297,7 +297,7 @@ class SearchBuilder implements Responsable
             ;
         }
 
-        $response = $this->builder->get();
+        $response ??= $this->builder->get();
 
         $corrected = 'correctedResponse';
 

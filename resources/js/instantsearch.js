@@ -84,7 +84,7 @@ export default class Search {
                 params: Object.assign({
                     search: this.state.query,
                     page: this.state.page,
-                    // hitsPerPage: this.state.hitsPerPage,
+                    hitsPerPage: this.state.hitsPerPage,
                     sort: this.state.sortBy,
                     facets: [...this.state.facets].join(','),
                     suggest: [...this.state.suggestions].join(','),
