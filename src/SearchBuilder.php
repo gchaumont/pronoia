@@ -211,32 +211,25 @@ class SearchBuilder implements Responsable
 
     protected function getMeta($result, $hits): array
     {
-        $meta = [
+        return [
             'total' => method_exists($result, 'total') ? $result->total() : count($result),
             'sortOptions' => $this->getSortOptions(),
             'defaultSort' => $this->defaultSort ?? null,
-        ];
-        if ($meta['total'] > 0) {
-            $meta['facets'] = collect($this->facets)
+            'facets' => collect($this->facets)
                 ->filter(fn ($facet) => Str::is(explode(',', request()->input('facets')), $facet->name))
                 ->keyBy(fn ($facet) => $facet->name)
                 ->map(fn ($facet) => [
                     'label' => $facet->label ?? null,
                     'options' => $facet->getOptions($hits),
-                ])
-            ;
-        }
-        // response(request()->input('facets'))->send();
-        $meta['suggestions'] = collect($this->suggestions)
-            ->filter(fn ($facet) => Str::is(explode(',', request()->input('suggest')), $facet->name))
-            ->keyBy(fn ($facet) => $facet->name)
-            ->map(fn ($facet) => [
-                'label' => $facet->label ?? null,
-                'options' => $facet->getOptions($hits),
-            ])
-        ;
-
-        return $meta;
+                ]),
+            'suggestions' => collect($this->suggestions)
+                ->filter(fn ($facet) => Str::is(explode(',', request()->input('suggest')), $facet->name))
+                ->keyBy(fn ($facet) => $facet->name)
+                ->map(fn ($facet) => [
+                    'label' => $facet->label ?? null,
+                    'options' => $facet->getOptions($hits),
+                ]),
+        ];
     }
 
     protected function getSort(): null|string
@@ -296,8 +289,11 @@ class SearchBuilder implements Responsable
                 ->paginate(...$this->pagination)
             ;
         }
+        // response($this->builder->toSql())->send();
 
         $response ??= $this->builder->get();
+
+        // response($response->response())->send();
 
         $corrected = 'correctedResponse';
 
