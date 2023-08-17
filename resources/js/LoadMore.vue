@@ -1,10 +1,12 @@
 <template>
     <div v-intersect="intersect" v-if="searchInstance.results.hasMore">
-        <button class="block mt-10 m-auto border px-3 py-2 rounded-lg border-gray-500 border-px flex items-center gap-2 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-100" @click="requestMore">
+        <button
+            class="mt-10 m-auto border px-3 py-2 rounded-lg border-gray-500 border-px flex items-center gap-2 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-100"
+            @click="requestMore">
             <LoadingSpinner v-if="searchInstance.isLoading" class="h-6 w-6" aria-hidden="true" />
-            <PlusIcon  v-else class="h-6 w-6" aria-hidden="true" />
+            <PlusIcon v-else class="h-6 w-6" aria-hidden="true" />
 
-            {{$filters.trans('general.more')}}
+            {{ $filters.trans('general.more') }}
         </button>
     </div>
 </template>
@@ -22,8 +24,8 @@ const props = defineProps({
         default: 'resourceSearch',
     },
     autoload: {
-        required: false, 
-        type: Boolean, 
+        required: false,
+        type: Boolean,
         default: false,
     }
 })

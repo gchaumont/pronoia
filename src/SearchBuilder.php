@@ -149,9 +149,7 @@ class SearchBuilder implements Responsable
         }
 
         return $this->resource::collection($hits)
-            ->additional(['meta' => $this->getMeta($collection, $hits)])
-
-        ;
+            ->additional(['meta' => $this->getMeta($collection, $hits)]);
     }
 
     public function sortOptions(\Closure|array $options): static
@@ -173,41 +171,41 @@ class SearchBuilder implements Responsable
         return $this;
     }
 
-       public static function getCleanedQuery(?string $query)
-       {
-           $replace = [
-               '\\' => '\\\\',
-               '+' => '\\+',
-               '-' => '\\-',
-               '=' => '\\=',
-               '&&' => '\\&\\&',
-               '||' => '\\|\\|',
-               '!' => '\\!',
-               '(' => '\\(',
-               ')' => '\\)',
-               '{' => '\\{',
-               '}' => '\\}',
-               '[' => '\\[',
-               ']' => '\\]',
-               '^' => '\\^',
-               '"' => '\\"',
-               '~' => '\\~',
-               '*' => '\\*',
-               '?' => '\\?',
-               ':' => '\\:',
-               '/' => '\\/',
-               'AND' => '\\A\\N\\D',
-               'OR' => '\\O\\R',
-               'NOT' => '\\N\\O\\T',
-               // " " => "\ ",
-               '>' => '\\ ',
-               '<' => '\\ ',
-           ];
+    public static function getCleanedQuery(?string $query)
+    {
+        $replace = [
+            '\\' => '\\\\',
+            '+' => '\\+',
+            '-' => '\\-',
+            '=' => '\\=',
+            '&&' => '\\&\\&',
+            '||' => '\\|\\|',
+            '!' => '\\!',
+            '(' => '\\(',
+            ')' => '\\)',
+            '{' => '\\{',
+            '}' => '\\}',
+            '[' => '\\[',
+            ']' => '\\]',
+            '^' => '\\^',
+            '"' => '\\"',
+            '~' => '\\~',
+            '*' => '\\*',
+            '?' => '\\?',
+            ':' => '\\:',
+            '/' => '\\/',
+            'AND' => '\\A\\N\\D',
+            'OR' => '\\O\\R',
+            'NOT' => '\\N\\O\\T',
+            // " " => "\ ",
+            '>' => '\\ ',
+            '<' => '\\ ',
+        ];
 
-           $query = str_replace(array_keys($replace), ' ', $query);
+        $query = str_replace(array_keys($replace), ' ', $query);
 
-           return preg_replace('/\\s+/', ' ', $query);
-       }
+        return preg_replace('/\\s+/', ' ', $query);
+    }
 
     protected function getMeta($result, $hits): array
     {
@@ -260,22 +258,21 @@ class SearchBuilder implements Responsable
             }
         }
 
-        foreach ($this->filters as $filter) {
-            if (request()->has($filter->name)) {
-                $filter->applyFilter($this->builder, request()->input($filter->name));
-            }
-        }
 
         if (request()->has('sort')) {
             collect($this->sortOptions)
                 ->firstWhere(fn ($sort) => $sort->name == request()->input('sort'))
-                ->applySorting($this->builder)
-            ;
+                ->applySorting($this->builder);
         } elseif (isset($this->defaultSort)) {
             $this->getSortOptions()
                 ->firstWhere(fn ($o) => $o->name == $this->defaultSort)
-                ?->applySorting($this->builder)
-            ;
+                ?->applySorting($this->builder);
+        }
+
+        foreach ($this->filters as $filter) {
+            if (request()->has($filter->name)) {
+                $filter->applyFilter($this->builder, request()->input($filter->name));
+            }
         }
 
         foreach ($this->suggestions as $suggestion) {
@@ -286,8 +283,7 @@ class SearchBuilder implements Responsable
 
         if (isset($this->pagination)) {
             $response = $this->builder
-                ->paginate(...$this->pagination)
-            ;
+                ->paginate(...$this->pagination);
         }
         // response($this->builder->toSql())->send();
 
