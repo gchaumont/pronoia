@@ -3,29 +3,25 @@
     "description": "Eloquent Search Query Builder and InstantSearch Ui Components",
     "type": "library",
     "license": "MIT",
-    "autoload":
-    {
-        "psr-4":
-        {
+    "autoload": {
+        "psr-4": {
             "Pronoia\\": "src"
         }
     },
     "authors": [
-    {
-        "name": "Guy",
-        "email": "gchaumont@me.com"
-    }],
-    "require":
-    {
-        "php": "^8.1",
-        "illuminate/collections": "^10.0",
-        "illuminate/support": "^10.0",
-        "illuminate/database": "^10.0"
-    },
-    "extra":
-    {
-        "laravel":
         {
+            "name": "Guy",
+            "email": "gchaumont@me.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/collections": "^11.0",
+        "illuminate/support": "^11.0",
+        "illuminate/database": "^11.0"
+    },
+    "extra": {
+        "laravel": {
             "providers": [
                 "Pronoia\\PronoiaServiceProvider"
             ]
