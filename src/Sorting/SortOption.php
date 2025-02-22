@@ -12,13 +12,11 @@ class SortOption implements \JsonSerializable
 
     public \Closure $query;
 
-    public function __construct(public readonly string $name)
-    {
-    }
+    public function __construct(public readonly string $name) {}
 
     public static function make(...$args): static
     {
-        return new static (...$args);
+        return new static(...$args);
     }
 
     public function applySorting(Builder $query): Builder
@@ -44,7 +42,7 @@ class SortOption implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'value' => $this->name,

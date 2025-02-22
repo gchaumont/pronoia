@@ -42,9 +42,9 @@ class SearchBuilder implements Responsable
 
     protected $pagination;
 
-    public function __construct(protected Builder $builder)
-    {
-    }
+    protected $defaultSort;
+
+    public function __construct(protected Builder $builder) {}
 
     public function __call($method, $parameters)
     {
@@ -130,7 +130,7 @@ class SearchBuilder implements Responsable
                     Locale::active()->key(),
                 ]),
                 ttl: $this->cache_ttl,
-                callback: fn () => $this->toResource($this->resolve())->toResponse($request),
+                callback: fn() => $this->toResource($this->resolve())->toResponse($request),
             );
         }
 
@@ -214,16 +214,16 @@ class SearchBuilder implements Responsable
             'sortOptions' => $this->getSortOptions(),
             'defaultSort' => $this->defaultSort ?? null,
             'facets' => collect($this->facets)
-                ->filter(fn ($facet) => Str::is(explode(',', request()->input('facets')), $facet->name))
-                ->keyBy(fn ($facet) => $facet->name)
-                ->map(fn ($facet) => [
+                ->filter(fn($facet) => Str::is(explode(',', request()->input('facets') ?? '', $facet->name))
+                ->keyBy(fn($facet) => $facet->name)
+                ->map(fn($facet) => [
                     'label' => $facet->label ?? null,
                     'options' => $facet->getOptions($hits),
                 ]),
             'suggestions' => collect($this->suggestions)
-                ->filter(fn ($facet) => Str::is(explode(',', request()->input('suggest')), $facet->name))
-                ->keyBy(fn ($facet) => $facet->name)
-                ->map(fn ($facet) => [
+                ->filter(fn($facet) => Str::is(explode(',', request()->input('suggest') ?? ''), $facet->name))
+                ->keyBy(fn($facet) => $facet->name)
+                ->map(fn($facet) => [
                     'label' => $facet->label ?? null,
                     'options' => $facet->getOptions($hits),
                 ]),
@@ -236,7 +236,7 @@ class SearchBuilder implements Responsable
             return request()->input('sort');
         }
         if (isset($this->defaultSort)) {
-            return $this->getSortOptions()->firstWhere(fn ($o) => $o->name == $this->defaultSort)->name;
+            return $this->getSortOptions()->firstWhere(fn($o) => $o->name == $this->defaultSort)->name;
         }
 
         return $this->getSortOptions()->first()?->name;
@@ -261,11 +261,11 @@ class SearchBuilder implements Responsable
 
         if (request()->has('sort')) {
             collect($this->sortOptions)
-                ->firstWhere(fn ($sort) => $sort->name == request()->input('sort'))
+                ->firstWhere(fn($sort) => $sort->name == request()->input('sort'))
                 ->applySorting($this->builder);
         } elseif (isset($this->defaultSort)) {
             $this->getSortOptions()
-                ->firstWhere(fn ($o) => $o->name == $this->defaultSort)
+                ->firstWhere(fn($o) => $o->name == $this->defaultSort)
                 ?->applySorting($this->builder);
         }
 
