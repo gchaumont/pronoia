@@ -214,14 +214,14 @@ class SearchBuilder implements Responsable
             'sortOptions' => $this->getSortOptions(),
             'defaultSort' => $this->defaultSort ?? null,
             'facets' => collect($this->facets)
-                ->filter(fn($facet) => Str::is(explode(',', request()->input('facets') ?? '', $facet->name))
+                ->filter(fn($facet) => Str::is(explode(',', request()->input('facets') ?? '', $facet->name ?? ''))
                 ->keyBy(fn($facet) => $facet->name)
                 ->map(fn($facet) => [
                     'label' => $facet->label ?? null,
                     'options' => $facet->getOptions($hits),
                 ]),
             'suggestions' => collect($this->suggestions)
-                ->filter(fn($facet) => Str::is(explode(',', request()->input('suggest') ?? ''), $facet->name))
+                ->filter(fn($facet) => Str::is(explode(',', request()->input('suggest') ?? ''), $facet->name ?? ''))
                 ->keyBy(fn($facet) => $facet->name)
                 ->map(fn($facet) => [
                     'label' => $facet->label ?? null,
