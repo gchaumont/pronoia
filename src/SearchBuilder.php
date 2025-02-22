@@ -44,6 +44,8 @@ class SearchBuilder implements Responsable
 
     protected $defaultSort;
 
+    protected $sortOptions;
+
     public function __construct(protected Builder $builder) {}
 
     public function __call($method, $parameters)
