@@ -16,10 +16,9 @@ class Option implements \JsonSerializable
         public null|int|string $count = null,
         public null|array $options = null,
         public null|array|JsonResource $resource = null,
-    ) {
-    }
+    ) {}
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'value' => $this->value,
